@@ -137,6 +137,9 @@ function fmtEggTimerTime(strInpStr) {
 function insertSelectPickerCircuits(el, currSchedule) {
     if (Object.keys(currCircuitArr).length > 1) {
         $.each(currCircuitArr, function (index, currCircuit) {
+            if (!currCircuit.hasOwnProperty('friendlyName')) {
+              currCircuit.friendlyName = 'unknown';
+            }
             if (currCircuit.friendlyName.toUpperCase() !== "NOT USED" && ((appParams.equipment.circuit.hideAux === false) || (currCircuit.friendlyName.indexOf("AUX") === -1))) {
                 var selected = '';
                 if (currCircuit.friendlyName.toUpperCase() === currSchedule.friendlyName.toUpperCase()) {
@@ -1633,7 +1636,9 @@ function startSocketRx() {
                     //console.log("Schedule: Dataset empty.")
                 } else {
                     if (currSchedule !== "blank") {
-
+                        if (!currSchedule.hasOwnProperty("friendlyName")) {
+                          currSchedule.friendlyName = 'unknown';
+                        }
                         // Schedule Event (if circuit used)
                         if (currSchedule.CIRCUIT !== 'NOT USED') {
                             if (currSchedule.MODE === "Schedule") {
